@@ -16,7 +16,7 @@ var bullets = [];
 var score = 0;
 var canShoot = true;
 var level = 1;
-var isGameOver = false; // Added to track game over state
+var isGameOver = false;
 
 document.addEventListener("keydown", function(e) {
     keys[e.keyCode] = true;
@@ -26,7 +26,20 @@ document.addEventListener("keyup", function(e) {
     keys[e.keyCode] = false;
 });
 
-// Updated to prevent asteroids from spawning too close to the ship
+window.addEventListener("resize", updateCanvasSize);
+
+updateCanvasSize();
+
+// Initialize the first wave of asteroids
+createAsteroids(level);
+
+gameLoop();
+
+function updateCanvasSize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
 function createAsteroids(level) {
     var num = level + 4; // Increase the number of asteroids with each level
     for (var i = 0; i < num; i++) {
@@ -58,9 +71,6 @@ function createAsteroids(level) {
         asteroids.push(asteroid);
     }
 }
-
-// Initialize the first wave of asteroids
-createAsteroids(level);
 
 function update() {
     if (isGameOver) {
@@ -239,5 +249,3 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
-
-gameLoop();
